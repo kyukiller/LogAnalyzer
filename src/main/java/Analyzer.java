@@ -10,17 +10,33 @@ import java.util.regex.Pattern;
 
 public class Analyzer {
 	
-	private int status10, status200, status404, countIE, countFirefox, countSafari, countChrome, countOpera, countRepeat;
+	public double status10;
+
+	public double status200;
+
+	public double status404;
+
+	public double countIE;
+
+	public double countFirefox;
+
+	public double countSafari;
+
+	public double countChrome;
+
+	public double countOpera;
+
+	public double countRepeat;
 	
-	List<String> timeList = new ArrayList<String>();
-	List<String> apiKeyList = new ArrayList<String>();
-	List<String> apiServiceIDList = new ArrayList<String>();
+	public List<String> timeList = new ArrayList<String>();
+	public List<String> apiKeyList = new ArrayList<String>();
+	public List<String> apiServiceIDList = new ArrayList<String>();
 	
 	/*
-	 *  ¸ğµçÇ×¸ñÀ» ¸®½ºÆ®¿¡ ³ÖÀº ÈÄ¿¡ ÀÛ¾÷ÇÏ±â ´õ ¼ö¿ùÇÏ±â À§ÇØ¼­ string array·Î º¯È¯ÇØÁÖ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  ëª¨ë“ í•­ëª©ì„ ë¦¬ìŠ¤íŠ¸ì— ë„£ì€ í›„ì— ì‘ì—…í•˜ê¸° ë” ìˆ˜ì›”í•˜ê¸° ìœ„í•´ì„œ string arrayë¡œ ë³€í™˜í•´ì£¼ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param List ListtoChange °¢ Á¤º¸°¡ µé¾îÀÖ´Â listÆÄ¶ó¹ÌÅÍ·Î °¡Áö°í ¿É´Ï´Ù.
-	 *  @return String[] stringArray list¸¦ string array·Î returnÇÕ´Ï´Ù.
+	 *  @param List ListtoChange ê° ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” listíŒŒë¼ë¯¸í„°ë¡œ ê°€ì§€ê³  ì˜µë‹ˆë‹¤.
+	 *  @return String[] stringArray listë¥¼ string arrayë¡œ returní•©ë‹ˆë‹¤.
 	 */
 	//http://stackoverflow.com/questions/5374311/convert-arrayliststring-to-string-array
 	public static String[] toStringArray(List listToChange){
@@ -31,10 +47,10 @@ public class Analyzer {
 	
 	
 	/*
-	 *  ][¸¦ ±âÁØÀ¸·Î ÀÚ¸£±â ÆíÇÏ±â À§ÇØ¼­ °¢ÁÙÀÇ Ã³À½°ú ³¡À» Àß¸£´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  ][ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ìë¥´ê¸° í¸í•˜ê¸° ìœ„í•´ì„œ ê°ì¤„ì˜ ì²˜ìŒê³¼ ëì„ ì˜ë¥´ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String toCut ÀĞ¾î ¿Â 1 ÁÙ(String)À» ÀÚ¸£±â À§ÇØ ÆÄ¶ó¹ÌÅÍ·Î °¡Áö°í ¿É´Ï´Ù.
-	 *  @return String cutted Ã³À½°ú ¸¶Áö¸· ±ÛÀÚ¸¦ ÀÚ¸¥ stringÀ» returnÇÕ´Ï´Ù.
+	 *  @param String toCut ì½ì–´ ì˜¨ 1 ì¤„(String)ì„ ìë¥´ê¸° ìœ„í•´ íŒŒë¼ë¯¸í„°ë¡œ ê°€ì§€ê³  ì˜µë‹ˆë‹¤.
+	 *  @return String cutted ì²˜ìŒê³¼ ë§ˆì§€ë§‰ ê¸€ìë¥¼ ìë¥¸ stringì„ returní•©ë‹ˆë‹¤.
 	 */
 	public static String firstLastLetterCut(String toCut){
 		String cutted;
@@ -44,10 +60,10 @@ public class Analyzer {
 	
 	
 	/*
-	 *  ][¸¦ ±âÁØÀ¸·Î ÀÚ¸£´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  ][ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ìë¥´ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String toDivide firstLastLetterCut¸Ş¼Òµå·Î ÀÚ¸£°í ¸®´øÅñ StringÀ» ¹Ş¾Æ¼­ ³ª´¯´Ï´Ù.
-	 *  @return String[] dividedString StringÀ» ÂÉ°µ ¾î·¹ÀÌ¸¦ ¸®ÅÏÇÕ´Ï´Ù
+	 *  @param String toDivide firstLastLetterCutë©”ì†Œë“œë¡œ ìë¥´ê³  ë¦¬ë˜í‡¸ Stringì„ ë°›ì•„ì„œ ë‚˜ëˆ•ë‹ˆë‹¤.
+	 *  @return String[] dividedString Stringì„ ìª¼ê°  ì–´ë ˆì´ë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤
 	 */	
 	public static String[] stringDivider(String toDivide){
 		String[] dividedString = firstLastLetterCut(toDivide).split(Pattern.quote("]["));
@@ -55,9 +71,9 @@ public class Analyzer {
 	}
 	
 	/*
-	 * »óÅÂ¸¦ º¸°í ¹Ù·Î »óÅÂ Ä«¿îÅÍ¸¦ ³ô¿©ÁÖ´Â ¸Ş¼­µåÀÔ´Ï´Ù.
+	 * ìƒíƒœë¥¼ ë³´ê³  ë°”ë¡œ ìƒíƒœ ì¹´ìš´í„°ë¥¼ ë†’ì—¬ì£¼ëŠ” ë©”ì„œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param string[] String[] dividedString °¢ Á¤º¸°¡ µé¾îÀÖ´Â string array¸¦ °¡Á®¿É´Ï´Ù. 
+	 *  @param string[] String[] dividedString ê° ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” string arrayë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. 
 	 */
 	public void analyzeStatus(String[] dividedString){
 		switch (dividedString[0]){
@@ -76,34 +92,27 @@ public class Analyzer {
 	}
 	
 	/*
-	 *  URLÀ» ºĞ¼®ÇØÁÖ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù. ¿Ã¹Ù¸¥ urlÀÌ ÁÖ¾îÁ³´ÂÁö È®ÀÎÀ» ÇÏ°í, apikey, serviceID¸¦ ÃßÃâÇÕ´Ï´Ù.
+	 *  URLì„ ë¶„ì„í•´ì£¼ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤. ì˜¬ë°”ë¥¸ urlì´ ì£¼ì–´ì¡ŒëŠ”ì§€ í™•ì¸ì„ í•˜ê³ , apikey, serviceIDë¥¼ ì¶”ì¶œí•©ë‹ˆë‹¤.
 	 *  
-	 *  @param String[] dividedString °¢ Á¤º¸°¡ µé¾îÀÖ´Â string array¸¦ °¡Á®¿É´Ï´Ù. 
+	 *  @param String[] dividedString ê° ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” string arrayë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. 
 	 */
-	public void analyzeURL(String[] dividedString) throws WrongInputException{
+	public void analyzeURL(String[] dividedString){
 		String normalURL = "http://apis.solbox.com/search/";
 		String apiKey;
 		String serviceID;
 		String url = dividedString[1];
-				
-		if (url.indexOf(normalURL)!=-1){
-			url.replace(normalURL, "");
-		} else {
-			throw new WrongInputException("Wrong Input");
-		}		
+		url = url.replaceFirst(normalURL, "");
 		
-		System.out.println(url);
-		System.out.println(String.valueOf(url.indexOf("\\?")));
-		serviceID = url.substring(0, url.indexOf(Pattern.quote("?"))-1);
+		serviceID = url.substring(0, url.indexOf('?'));
 		apiServiceIDList.add(serviceID);
-		apiKey = url.substring(url.length()-5, url.length()-1);
-		apiKeyList.add(apiKey);		
+		apiKey = url.substring(url.indexOf("apikey=")+7, url.indexOf("apikey=")+11);
+		apiKeyList.add(apiKey);	
 	}
 	
 	/*
-	 *  ºê¶ó¿ìÀú¸¦ ºĞ¼®ÇØÁÖ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù. ºê¶ó¿ìÀú¿¡ µû¶ó Ä«¿îÆ®¸¦ Áõ°¡½ÃÅµ´Ï´Ù.
+	 *  ë¸Œë¼ìš°ì €ë¥¼ ë¶„ì„í•´ì£¼ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤. ë¸Œë¼ìš°ì €ì— ë”°ë¼ ì¹´ìš´íŠ¸ë¥¼ ì¦ê°€ì‹œí‚µë‹ˆë‹¤.
 	 *  
-	 *  @param String[] dividedString °¢ Á¤º¸°¡ µé¾îÀÖ´Â string array¸¦ °¡Á®¿É´Ï´Ù. 
+	 *  @param String[] dividedString ê° ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” string arrayë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. 
 	 */
 	public void analyzeBrowser(String[] dividedString){
 		switch (dividedString[2]){
@@ -129,19 +138,19 @@ public class Analyzer {
 	}
 	
 	/*
-	 *  ºê¶ó¿ìÀú¸¦ ºĞ¼®ÇØÁÖ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù. °¢ ½Ã°£À» ¸®½ºÆ®¿¡ ³Ö½À´Ï´Ù.
+	 *  ë¸Œë¼ìš°ì €ë¥¼ ë¶„ì„í•´ì£¼ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤. ê° ì‹œê°„ì„ ë¦¬ìŠ¤íŠ¸ì— ë„£ìŠµë‹ˆë‹¤.
 	 *  
-	 *  @param String[] dividedString °¢ Á¤º¸°¡ µé¾îÀÖ´Â string array¸¦ °¡Á®¿É´Ï´Ù. 
+	 *  @param String[] dividedString ê° ì •ë³´ê°€ ë“¤ì–´ìˆëŠ” string arrayë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. 
 	 */
 	public void stackCallTime(String[] dividedString){
 			timeList.add(dividedString[3]);
 	}
 	
 	/*
-	 *  °¢ Á¤º¸°¡ ÀÖ´Â  string[]¸¦ ºóµµÃøÁ¤ÇÏ±âÀ§ÇØ hashmapÀ¸·Î ¸¸µé¾îÁİ´Ï´Ù.
+	 *  ê° ì •ë³´ê°€ ìˆëŠ”  string[]ë¥¼ ë¹ˆë„ì¸¡ì •í•˜ê¸°ìœ„í•´ hashmapìœ¼ë¡œ ë§Œë“¤ì–´ì¤ë‹ˆë‹¤.
 	 *  
-	 *  @param String[] stringArray ÇÊ¿äÁ¤º¸°¡ ÀÖ´Â stringArray¸¦ °¡Á®¿É´Ï´Ù. Áßº¹ µ¥ÀÌÅÍ°¡ ÀÖÀ» ¼ö ÀÖ½À´Ï´Ù.
-	 *  @return HashMap<String, Integer> °¢ StringÀÌ ¸î ¹ø Æ÷ÇÔµÇÀÖ´ÂÁö Integer·Î ³ªÅ¸³»´Â HashMapÀ» Ãâ·ÂÇÕ´Ï´Ù.
+	 *  @param String[] stringArray í•„ìš”ì •ë³´ê°€ ìˆëŠ” stringArrayë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤. ì¤‘ë³µ ë°ì´í„°ê°€ ìˆì„ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+	 *  @return HashMap<String, Integer> ê° Stringì´ ëª‡ ë²ˆ í¬í•¨ë˜ìˆëŠ”ì§€ Integerë¡œ ë‚˜íƒ€ë‚´ëŠ” HashMapì„ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	public HashMap<String, Integer> makeHashMap(String[] stringArray){
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
@@ -169,134 +178,141 @@ public class Analyzer {
 	}
 	
 	/*
-	 *  hashmap¿¡ ÀÖ´Â ÃÖ°íºóµµÀÇ value 3°³¸¦ string[] ·Î ¸¸µé¾îÁİ´Ï´Ù.ÀÌ ¶§ ºóµµ¸¦ stringÀÇ ³¡¿¡ ºÙ¿©¼­ ¾µ°ÍÀÔ´Ï´Ù.
+	 *  hashmapì— ìˆëŠ” ìµœê³ ë¹ˆë„ì˜ value 3ê°œë¥¼ string[] ë¡œ ë§Œë“¤ì–´ì¤ë‹ˆë‹¤.ì´ ë•Œ ë¹ˆë„ë¥¼ stringì˜ ëì— ë¶™ì—¬ì„œ ì“¸ê²ƒì…ë‹ˆë‹¤.
 	 *  
-	 *  @param HashMap<String, Integer> °¢ StringÀÌ ¸î ¹ø Æ÷ÇÔµÇÀÖ´ÂÁö Integer·Î ³ªÅ¸³»´Â HashMapÀ» ¹Ş½À´Ï´Ù.
-	 *  @return String[] ranked ÀÌ¸§+ºóµµ¸¦ ÀúÀåÇÑ string[]¸¦ ¹Ş½À´Ï´Ù.
+	 *  @param HashMap<String, Integer> ê° Stringì´ ëª‡ ë²ˆ í¬í•¨ë˜ìˆëŠ”ì§€ Integerë¡œ ë‚˜íƒ€ë‚´ëŠ” HashMapì„ ë°›ìŠµë‹ˆë‹¤.
+	 *  @return String[] ranked ì´ë¦„+ë¹ˆë„ë¥¼ ì €ì¥í•œ string[]ë¥¼ ë°›ìŠµë‹ˆë‹¤.
 	 */
 	public String[] getTopValues(HashMap<String, Integer> rankedHashMap){
 		String[] ranked = new String[3];
-
+		System.out.println(this.timeList.toString());
+		System.out.println(this.apiKeyList.toString());
+		System.out.println(this.apiServiceIDList.toString());
 		for (int i = 0; i < 3; i++){
 			int max = -1;
 			String maxString = "";
 			for(String key : rankedHashMap.keySet()){
-				System.out.println("2");
 				if(rankedHashMap.get(key) > max){
 					max = rankedHashMap.get(key);
-					System.out.println("3");
-					System.out.println(rankedHashMap.get(key));
-					maxString = key+String.valueOf(rankedHashMap.get(key));
+					maxString = key+"value:"+String.valueOf(rankedHashMap.get(key));
+					System.out.println("key:"+onlyKey(maxString));
+					System.out.println("value:"+onlyValue(maxString));
+
 				}
 			}
 			ranked[i] = maxString;
-			rankedHashMap.remove(maxString);
-
-			System.out.println(stringArraytoString(ranked));
+			rankedHashMap.remove(onlyKey(maxString));
 		}
 		return ranked;
 	}
 	
 	/*
-	 *  °¢ ºê¶ó¿ìÀúÀÇ ºóµµ¸¦ ¹Ş¾Æ¼­ ÀüÃ¼ ÆÛ¼¾Æ®·Î ¹Ù²ãÁİ´Ï´Ù.
+	 *  ê° ë¸Œë¼ìš°ì €ì˜ ë¹ˆë„ë¥¼ ë°›ì•„ì„œ ì „ì²´ í¼ì„¼íŠ¸ë¡œ ë°”ê¿”ì¤ë‹ˆë‹¤.
 	 *  
-	 *  @param int countIE, int countFirefox, int countSafari, int countChrome, int countOpera °¢ ºê¶ó¿ìÀúÀÇ ºóµµ¸¦ ÆÄ¶ó¹ÌÅÍ·Î ¹Ş½À´Ï´Ù.
-	 *  @return int[] percentage °¢ ºê¶ó¿ìÀúÀÇ ÆÛ¼¾Æ¼Áö °ªÀ» ³ª¿­ÇÑ array¸¦ ¸®ÅÏÇÕ´Ï´Ù.
+	 *  @param int countIE, int countFirefox, int countSafari, int countChrome, int countOpera ê° ë¸Œë¼ìš°ì €ì˜ ë¹ˆë„ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ë°›ìŠµë‹ˆë‹¤.
+	 *  @return int[] percentage ê° ë¸Œë¼ìš°ì €ì˜ í¼ì„¼í‹°ì§€ ê°’ì„ ë‚˜ì—´í•œ arrayë¥¼ ë¦¬í„´í•©ë‹ˆë‹¤.
 	 */
-	public int[] getBrowserPercentage(int countIE, int countFirefox, int countSafari, int countChrome, int countOpera){
-		int sum = countIE + countFirefox + countSafari + countChrome + countOpera;
-		int[] percentages = new int[5];
+	public double[] getBrowserPercentage(double countIE, double countFirefox, double countSafari, double countChrome, double countOpera){
+		double sum = countIE + countFirefox + countSafari + countChrome + countOpera;
+		double[] percentages = new double[5];
 		percentages[0] = countIE / sum * 100;
 		percentages[1] = countFirefox / sum * 100;
 		percentages[2] = countSafari / sum * 100;
 		percentages[3] = countChrome / sum * 100;
 		percentages[4] = countOpera / sum * 100;
+		System.out.println(String.valueOf(countIE / sum * 100));
 		return percentages;		
 	}
 	
 	/*
-	 *  getTopValues ¿¡¼­ key¿Í value¸¦ ºÙ¿©³ù±â ¶§¹®¿¡ key¸¸À» ÃßÃâÇÏ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  getTopValues ì—ì„œ keyì™€ valueë¥¼ ë¶™ì—¬ë†¨ê¸° ë•Œë¬¸ì— keyë§Œì„ ì¶”ì¶œí•˜ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String both key¿Í value¸¦ µÑ´Ù °¡Áö°í ÀÖ´Â string.
-	 *  @return String key key¸¸À» °¡Áö°í ÀÖ´Â string.
+	 *  @param String both keyì™€ valueë¥¼ ë‘˜ë‹¤ ê°€ì§€ê³  ìˆëŠ” string.
+	 *  @return String key keyë§Œì„ ê°€ì§€ê³  ìˆëŠ” string.
 	 */
 	public String onlyKey(String both){
-		String key = both.substring(0, both.length()-2);
+		String key = both.substring(0, both.indexOf("value:"));
 		return key;
 	}
 	
 	/*
-	 *  getTopValues ¿¡¼­ key¿Í value¸¦ ºÙ¿©³ù±â ¶§¹®¿¡ key¸¸À» ÃßÃâÇÏ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  getTopValues ì—ì„œ keyì™€ valueë¥¼ ë¶™ì—¬ë†¨ê¸° ë•Œë¬¸ì— keyë§Œì„ ì¶”ì¶œí•˜ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String both key¿Í value¸¦ µÑ´Ù °¡Áö°í ÀÖ´Â string.
-	 *  @return String key value¸¸À» °¡Áö°í ÀÖ´Â string.
+	 *  @param String both keyì™€ valueë¥¼ ë‘˜ë‹¤ ê°€ì§€ê³  ìˆëŠ” string.
+	 *  @return String key valueë§Œì„ ê°€ì§€ê³  ìˆëŠ” string.
 	 */
 	public String onlyValue(String both){
 		System.out.println(both);
-		String value = both.substring(both.length()-2, both.length()-1);
+		String value = both.substring(both.indexOf("value:")+6, both.length());
 		return value;
 	}
 	
 	/*
-	 *  getTopValues ¿¡¼­ key¿Í value¸¦ ºÙ¿©³ù±â ¶§¹®¿¡ key¸¸À» ÃßÃâÇÏ´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  getTopValues ì—ì„œ keyì™€ valueë¥¼ ë¶™ì—¬ë†¨ê¸° ë•Œë¬¸ì— keyë§Œì„ ì¶”ì¶œí•˜ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String both key¿Í value¸¦ µÑ´Ù °¡Áö°í ÀÖ´Â string.
-	 *  @return String key value¸¸À» °¡Áö°í ÀÖ´Â string.
+	 *  @param String both keyì™€ valueë¥¼ ë‘˜ë‹¤ ê°€ì§€ê³  ìˆëŠ” string.
+	 *  @return String key valueë§Œì„ ê°€ì§€ê³  ìˆëŠ” string.
 	 */
 	public String maxAPIKeyString(String[] maxValues){
-		String maxAPISentence = "ÃÖ´ÙÈ£Ãâ APIKEY \n" + onlyKey(maxValues[0]);
+		String maxAPISentence = "ìµœë‹¤í˜¸ì¶œ APIKEY" + System.lineSeparator() + onlyKey(maxValues[0]);
 		return maxAPISentence;
 	}
 	
 	/*
-	 *  outputÀ» À§ÇØ »óÅÂÄÚµåº° È½¼ö¸¦ StringÀ¸·Î ¸¸µå´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  outputì„ ìœ„í•´ ìƒíƒœì½”ë“œë³„ íšŸìˆ˜ë¥¼ Stringìœ¼ë¡œ ë§Œë“œëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param Å¬¶ó½º³»¿¡  Ä«¿îÅÍ°¡ ÀÖ±â ¶§¹®¿¡ º°µµÀÇ ÆÄ¶ó¹ÌÅÍ°¡ ÇÊ¿ä ¾ø½À´Ï´Ù. 
-	 *  @return String eachstatusString »óÅÂÄÚµåº° È½¼ö¸¦ StringÀ¸·Î Ãâ·ÂÇÕ´Ï´Ù.
+	 *  @param í´ë¼ìŠ¤ë‚´ì—  ì¹´ìš´í„°ê°€ ìˆê¸° ë•Œë¬¸ì— ë³„ë„ì˜ íŒŒë¼ë¯¸í„°ê°€ í•„ìš” ì—†ìŠµë‹ˆë‹¤. 
+	 *  @return String eachstatusString ìƒíƒœì½”ë“œë³„ íšŸìˆ˜ë¥¼ Stringìœ¼ë¡œ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	public String eachStatusString(){
 		String eachStatusString = 
-				"»óÅÂÄÚµå º° È½¼ö \n 10 : " + status10 + "\n" +  "200 : "+ status200 + "\n" +  "404 : "+ status404;
+				"ìƒíƒœì½”ë“œ ë³„ íšŸìˆ˜" + System.lineSeparator() + "10 : " + (int)status10 + System.lineSeparator() +  "200 : "+ (int)status200 + System.lineSeparator() +  "404 : "+ (int)status404;
 		return eachStatusString;
 	}
 	
 	/*
-	 *  outputÀ» À§ÇØ ÃÖ°í ºóµµÀÇ APIService 3°³¸¦ StringÀ¸·Î ¸¸µå´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  outputì„ ìœ„í•´ ìµœê³  ë¹ˆë„ì˜ APIService 3ê°œë¥¼ Stringìœ¼ë¡œ ë§Œë“œëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String[] maxValues getTopValues·Î »ÌÀº string[]¸¦ ÆÄ¶ó¹ÌÅÍ·Î ¹Ş½À´Ï´Ù. 
-	 *  @return String topThreeAPIServices ÃÖ°í ºóµµÀÇ APIService 3°³¸¦  StringÀ¸·Î Ãâ·ÂÇÕ´Ï´Ù.
+	 *  @param String[] maxValues getTopValuesë¡œ ë½‘ì€ string[]ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ë°›ìŠµë‹ˆë‹¤. 
+	 *  @return String topThreeAPIServices ìµœê³  ë¹ˆë„ì˜ APIService 3ê°œë¥¼  Stringìœ¼ë¡œ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	public String topThreeAPIService(String[] maxValues){
 		String topThreeAPIServices = 
-				"»óÀ§ 3°³ÀÇ API ServiceID¿Í °¢°¢ÀÇ ¿äÃ» ¼ö \n" + maxValues[0] + " : " + "\n" + maxValues[1] + status200 + "\n" + maxValues[2];
+				"ìƒìœ„ 3ê°œì˜ API ServiceIDì™€ ê°ê°ì˜ ìš”ì²­ ìˆ˜ " + System.lineSeparator() + onlyKey(maxValues[0]) + " : " +  onlyValue(maxValues[0]) + System.lineSeparator() +
+				onlyKey(maxValues[1]) + " : "  + onlyValue(maxValues[1]) + System.lineSeparator() + onlyKey(maxValues[2]) + " : " + onlyValue(maxValues[2]);
 		return topThreeAPIServices;
 	}
 	
 	/*
-	 *  outputÀ» À§ÇØ ÃÖ°í ºóµµÀÇ ÇÇÅ©½Ã°£À» stringÀ¸·Î ¸¸µå´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  outputì„ ìœ„í•´ ìµœê³  ë¹ˆë„ì˜ í”¼í¬ì‹œê°„ì„ stringìœ¼ë¡œ ë§Œë“œëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param String[] maxValues getTopValues·Î »ÌÀº string[]¸¦ ÆÄ¶ó¹ÌÅÍ·Î ¹Ş½À´Ï´Ù. 
-	 *  @return String peakTime ÃÖ°í ºóµµÀÇ ½Ã°£À»  StringÀ¸·Î Ãâ·ÂÇÕ´Ï´Ù.
+	 *  @param String[] maxValues getTopValuesë¡œ ë½‘ì€ string[]ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ë°›ìŠµë‹ˆë‹¤. 
+	 *  @return String peakTime ìµœê³  ë¹ˆë„ì˜ ì‹œê°„ì„  Stringìœ¼ë¡œ ì¶œë ¥í•©ë‹ˆë‹¤.
 	 */
 	public String peakTimeString(String[] maxValues){
 		String peakTime = 
-				"ÇÇÅ© ½Ã°£´ë \n" + onlyKey(maxValues[0]);
+				"í”¼í¬ ì‹œê°„ëŒ€ " + System.lineSeparator() + onlyKey(maxValues[0]);
 		return peakTime;
 	}
 	
 	/*
-	 *  outputÀ» À§ÇØ °¢ ºê¶ó¿ìÀúÀÇ ÆÛ¼¾Æ®¸¦ StringÀ¸·Î ¸¸µå´Â ¸Ş¼ÒµåÀÔ´Ï´Ù.
+	 *  outputì„ ìœ„í•´ ê° ë¸Œë¼ìš°ì €ì˜ í¼ì„¼íŠ¸ë¥¼ Stringìœ¼ë¡œ ë§Œë“œëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
 	 *  
-	 *  @param Int[] percentages getBrowserPercentage·Î »ÌÀº int[]¸¦ ÆÄ¶ó¹ÌÅÍ·Î ¹Ş½À´Ï´Ù. 
-	 *  @return String browserPercentages °¢ ºê¶óÀ¸ÁÖÀÇ ¹éºĞÀ²À» StringÀ¸·Î Ãâ·ÂÇÕ´Ï´Ù..
+	 *  @param Int[] percentages getBrowserPercentageë¡œ ë½‘ì€ int[]ë¥¼ íŒŒë¼ë¯¸í„°ë¡œ ë°›ìŠµë‹ˆë‹¤. 
+	 *  @return String browserPercentages ê° ë¸Œë¼ìœ¼ì£¼ì˜ ë°±ë¶„ìœ¨ì„ Stringìœ¼ë¡œ ì¶œë ¥í•©ë‹ˆë‹¤..
 	 */
-	public String browserPercentageString(int[] percentages){
+	public String browserPercentageString(double[] percentages){
 		String browserPercentages = 
-				"À¥ ºê¶ó¿ìÀú º° »ç¿ëºñ¿ï \n" + "IE : " + percentages[0] + "%" + "\n"+ "Firefox : " + percentages[1] + "%" + "\n"
-		+ "Safari : " + percentages[2] + "%" + "\n"+ "Chrome : " + percentages[3] + "%" + "\n"+ "Opera : " + percentages[4] + "%";
+				"ì›¹ ë¸Œë¼ìš°ì € ë³„ ì‚¬ìš©ë¹„ìš¸ " + System.lineSeparator() +  "IE : " + percentages[0] + "%" + System.lineSeparator() + "Firefox : " + percentages[1] + "%" + System.lineSeparator()
+		+ "Safari : " + percentages[2] + "%" + System.lineSeparator() + "Chrome : " + percentages[3] + "%" + System.lineSeparator() + "Opera : " + percentages[4] + "%";
 		return browserPercentages;
 	}
 	
+	/*
+	 *  inputíŒŒì¼ì—ì„œ ê°ì¤„ì„ ì½ì–´ì„œ ìœ„ì˜ ë©”ì„œë“œë“¤ë¡œ ë¶„ì„í•©ë‹ˆë‹¤.
+	 *  
+	 *  @return Analyzer reader inputíŒŒì¼ì•ˆì˜ ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” Analyzerì„ ë¦¬í„´í•©ë‹ˆë‹¤.
+	 */
 	public Analyzer reader() throws FileNotFoundException, WrongInputException{
 		Analyzer reader = new Analyzer();
 			Scanner s = new Scanner(new File("C:\\Users\\Administrator\\Downloads\\input.log"));
@@ -308,35 +324,54 @@ public class Analyzer {
 				reader.analyzeURL(tempStringArray);
 				reader.analyzeBrowser(tempStringArray);
 				reader.stackCallTime(tempStringArray);
-				countRepeat++;
-		
 		        }
 		    s.close();
 		return reader;	
 	}
 	
-	
-	public void fileOutput(Analyzer reader){
+	/*
+	 *  Analyzerì˜ ì •ë³´ë¥¼ output.logíŒŒì¼ì— ì¶œë ·í•˜ëŠ” ë©”ì†Œë“œì…ë‹ˆë‹¤.
+	 *  
+	 *  @param Analyzer reader íŒŒì¼ì˜ ì •ë³´ë¥¼ ì½ì€ Analyzerì„ ë°›ìŠµë‹ˆë‹¤.
+	 */
+	public void fileOutput(Analyzer reader) throws IOException{
+		
 		String OUTPUT_FILE = "C:\\Users\\Administrator\\Downloads\\output.log";
-		String maxAPIKeyString = reader.maxAPIKeyString(getTopValues(makeHashMap(toStringArray(apiKeyList))));
+		String maxAPIKeyString = reader.maxAPIKeyString(getTopValues(makeHashMap(toStringArray(reader.apiKeyList))));
 		String eachStatusString = reader.eachStatusString();
-		String topThreeAPIService = reader.topThreeAPIService(getTopValues(makeHashMap(toStringArray(apiServiceIDList))));
-		String peakTime = reader.peakTimeString(getTopValues(makeHashMap(toStringArray(timeList))));
+		String topThreeAPIService = reader.topThreeAPIService(getTopValues(makeHashMap(toStringArray(reader.apiServiceIDList))));
+		String peakTime = reader.peakTimeString(getTopValues(makeHashMap(toStringArray(reader.timeList))));
 		String browserPercentageString = reader.browserPercentageString(getBrowserPercentage(reader.countIE, reader.countFirefox, reader.countSafari, reader.countChrome, reader.countOpera));
 		
-		try(OutputStreamWriter outWriter = new OutputStreamWriter(new FileOutputStream(OUTPUT_FILE), "UTF-8")){
-			outWriter.write(maxAPIKeyString);
-			outWriter.write(eachStatusString);
-			outWriter.write(topThreeAPIService);
-			outWriter.write(peakTime);
-			outWriter.write(browserPercentageString);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
+		//ì´ë¯¸ íŒŒì¼ì´ ìˆì„ì‹œì— íŒŒì¼ì„ ë¹„ìš°ê¸° ìœ„í•´ì„œ ì•„ë˜ ë‘ì¤„ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+		PrintWriter pw = new PrintWriter(OUTPUT_FILE);
+		pw.close();		
+		
+		FileWriter fstream = new FileWriter(OUTPUT_FILE, true);
+        BufferedWriter out = new BufferedWriter(fstream);
+        out.write(maxAPIKeyString);
+        out.newLine();
+        out.newLine();
+        out.newLine();
+        out.write(eachStatusString);
+		out.newLine();
+		out.newLine();
+		out.newLine();
+		out.write(topThreeAPIService);
+		out.newLine();
+		out.newLine();
+		out.newLine();
+		out.write(peakTime);
+		out.newLine();
+		out.newLine();
+		out.newLine();
+		out.write(browserPercentageString);
+		
+		out.close();
 	}
 	
 
-	public static void main(String[] args) throws FileNotFoundException, WrongInputException {
+	public static void main(String[] args) throws WrongInputException, IOException {
 		Analyzer main = new Analyzer();
 		main.fileOutput(main.reader());	
 	}
